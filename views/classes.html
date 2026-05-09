@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promptwala Classes</title>
+  <meta
+    name="description"
+    content="Promptwala Classes helps BCA students learn semester by semester with videos, notes, explanations, and project help."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@500;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="/css/style.css">
+
+<style>
+
+    .user-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.user-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+  border: 1px solid rgba(255,255,255,0.18);
+  color: #fff;
+
+  padding: 8px 16px;
+  border-radius: 12px;
+
+  cursor: pointer;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+
+  backdrop-filter: blur(12px);
+  transition: all 0.25s ease;
+}
+
+.user-btn:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.35);
+  transform: translateY(-1px);
+}
+
+.dropdown {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background: rgba(0,0,0,0.8);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  min-width: 120px;
+  padding: 5px 0;
+}
+
+.dropdown-item {
+  width: 100%;
+  background: none;
+  border: none;
+  color: white;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* 🔥 Mobile fix */
+@media (max-width: 768px) {
+  .user-menu {
+    width: 100%;
+  }
+
+  .user-btn {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .dropdown {
+    position: relative;   /* ❗ important change */
+    top: 5px;
+    right: auto;
+    width: 100%;
+  }
+}
+.subpage-main > section:not(.page-hero) {
+  display: none;
+}
+.coming-text {
+  text-align: center;
+  margin-top: -25px;
+  opacity: 0.8;
+  position: relative;
+  z-index: 2;
+}
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(10px);
+  z-index: 9999;
+}
+
+.popup-box {
+  background: rgba(20,20,30,0.9);
+  padding: 30px;
+  border-radius: 16px;
+  text-align: center;
+  width: 300px;
+  color: white;
+  position: relative;
+}
+
+.popup-box input {
+  width: 100%;
+  padding: 10px;
+  margin: 15px 0;
+  border-radius: 8px;
+  border: none;
+}
+
+.popup-box button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(90deg, #6a5cff, #ff7a18);
+  color: white;
+  cursor: pointer;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+}
+  </style>
+    
+</head>
+<body class="site-body">
+  <div class="bg-orb orb-one"></div>
+  <div class="bg-orb orb-two"></div>
+  <div class="bg-grid"></div>
+
+  <header class="site-header">
+    <nav class="navbar container">
+      <a class="brand" href="#hero">
+        <img src="/images/logo.png" alt="Promptwala Logo" class="brand-logo">
+        <span class="brand-text">Promptwala</span>
+      </a>
+
+    <button class="nav-toggle" type="button" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+    </button>
+
+      <div class="nav-menu">
+        <a href="/projects/">Projects</a>
+          <div id="userMenu" class="user-menu" style="display:none;">
+          <button id="userBtn" class="user-btn">Hi, User</button>
+
+          <div id="dropdown" class="dropdown" style="display:none;">
+            <button onclick="logout()" class="dropdown-item">Logout</button>
+          </div>
+        </div>
+          <div class="nav-actions" id="authButtons">
+            <a class="nav-action-link" href="/sign-in">Sign In</a>
+            <a class="nav-action-primary" href="/sign-up">Sign Up</a>
+          </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="subpage-main">
+    <section class="section page-hero">
+      <div class="container">
+        <div class="glass-panel reveal">
+          <p class="eyebrow">PROMPTWALA CLASSES</p>
+          <h1 class="hero-title">Learn BCA <span class="gradient-text">step-by-step</span>.</h1>
+          <p class="hero-description">
+            A dedicated platform for BCA students with semester-wise subjects, videos, notes, and practical guidance.
+Courses launching soon — stay tuned!
+          </p>
+          <div class="split-actions">
+            <a class="button button-primary" href="#" onclick="openPopup()">Notify Me</a>
+            <a class="button button-secondary" href="/">Back to Agency Site</a>
+          </div>
+        </div>
+      </div>
+    </section>
+<p class="coming-text">Full platform coming soon...</p>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">SEMESTERS</p>
+          <h2>Structured learning from semester 1 to 6.</h2>
+        </div>
+        <div class="card-grid">
+          <article class="glass-card feature-card reveal">
+            <h3>Semester 1-2</h3>
+            <p>Core basics, programming foundations, computer fundamentals, and guided notes.</p>
+            <ul class="list">
+              <li>Intro videos</li>
+              <li>Simple explanations</li>
+              <li>Practice-oriented notes</li>
+            </ul>
+          </article>
+          <article class="glass-card feature-card reveal">
+            <h3>Semester 3-4</h3>
+            <p>Intermediate coding, databases, software concepts, and project-oriented learning.</p>
+            <ul class="list">
+              <li>Topic-wise lessons</li>
+              <li>Exam support material</li>
+              <li>Mini project direction</li>
+            </ul>
+          </article>
+          <article class="glass-card feature-card reveal">
+            <h3>Semester 5-6</h3>
+            <p>Advanced subjects, final-year preparation, portfolio building, and career-ready project execution.</p>
+            <ul class="list">
+              <li>Advanced concepts</li>
+              <li>Project strategy</li>
+              <li>Placement support mindset</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">PLANS</p>
+          <h2>Choose how deeply you want support.</h2>
+        </div>
+        <div class="plan-grid">
+          <article class="glass-card reveal">
+            <p class="card-tag">Free</p>
+            <h3>Starter Access</h3>
+            <p>Limited lessons and selected notes for students exploring the platform.</p>
+          </article>
+          <article class="glass-card reveal">
+            <p class="card-tag">Paid</p>
+            <h3>Full Course Access</h3>
+            <p>Complete semester material, deeper explanations, and expanded learning content.</p>
+          </article>
+          <article class="glass-card reveal">
+            <p class="card-tag">Premium</p>
+            <h3>Support + Guidance</h3>
+            <p>Full access with extra help, project discussion, and more direct learning support.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container login-shell">
+        <article class="glass-card reveal">
+          <p class="eyebrow">LOGIN SYSTEM</p>
+          <h2>Register, login, and prepare for a future dashboard.</h2>
+          <p class="hero-description">
+            This starter version includes the platform structure now, with account
+            system hooks ready for the next backend phase using Node.js, Express, and MongoDB.
+          </p>
+        </article>
+        <article class="glass-card reveal">
+          <p class="eyebrow">PROJECT HELP</p>
+          <h2>Need help with your college project?</h2>
+          <p class="hero-description">
+            Get guided project ideas, demos, and custom requests tailored to your course needs.
+          </p>
+          <div class="split-actions">
+            <a class="button button-primary" href="/projects/">I Need a Project</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script>
+const user = JSON.parse(localStorage.getItem("user"));
+
+const userMenu = document.getElementById("userMenu");
+const userBtn = document.getElementById("userBtn");
+const dropdown = document.getElementById("dropdown");
+const authButtons = document.getElementById("authButtons");
+
+if (user) {
+  userMenu.style.display = "inline-block";
+  userBtn.innerText = "Hi, " + user.name;
+  authButtons.style.display = "none";
+}
+
+// toggle dropdown
+userBtn.addEventListener("click", () => {
+  dropdown.style.display =
+    dropdown.style.display === "block" ? "none" : "block";
+});
+
+function logout() {
+  localStorage.removeItem("user");
+  window.location.href = "/logout"; // backend logout
+}
+
+// click outside close
+window.addEventListener("click", (e) => {
+  if (!userMenu.contains(e.target)) {
+    dropdown.style.display = "none";
+  }
+});
+</script>
+<script>
+function openPopup() {
+  document.getElementById("notifyPopup").style.display = "flex";
+}
+
+function closePopup() {
+  document.getElementById("notifyPopup").style.display = "none";
+}
+
+
+async function submitEmail() {
+
+  const email = document.getElementById("emailInput").value;
+
+  const response = await fetch("http://localhost:3000/save-email", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ email })
+  });
+
+  const data = await response.text();
+
+  alert(data);
+}
+
+</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="/Js/script.js"></script>
+  <div id="notifyPopup" class="popup">
+  <div class="popup-box">
+    <h2>Get Notified</h2>
+    <p>Enter your email and we’ll notify you when we launch.</p>
+
+    <input type="email" id="emailInput" placeholder="Enter your email" />
+
+<button onclick="submitEmail()">Submit</button>
+    <span class="close-btn" onclick="closePopup()">✕</span>
+  </div>
+</div>
+</body>
+</html>

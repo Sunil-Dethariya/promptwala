@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promptwala Projects</title>
+  <meta
+    name="description"
+    content="Explore Promptwala student projects, demos, and custom college project support."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@500;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/inquiry.css">
+
+  <style>
+
+    .loader {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #fff;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+    .user-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.user-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+  border: 1px solid rgba(255,255,255,0.18);
+  color: #fff;
+
+  padding: 8px 16px;
+  border-radius: 12px;
+
+  cursor: pointer;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+
+  backdrop-filter: blur(12px);
+  transition: all 0.25s ease;
+}
+
+.user-btn:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.35);
+  transform: translateY(-1px);
+}
+
+.dropdown {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background: rgba(0,0,0,0.8);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  min-width: 120px;
+  padding: 5px 0;
+}
+
+.dropdown-item {
+  width: 100%;
+  background: none;
+  border: none;
+  color: white;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* 🔥 Mobile fix */
+@media (max-width: 768px) {
+  .user-menu {
+    width: 100%;
+  }
+
+  .user-btn {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .dropdown {
+    position: relative;   /* ❗ important change */
+    top: 5px;
+    right: auto;
+    width: 100%;
+  }
+}
+  </style>
+</head>
+<body class="site-body">
+  <div class="bg-orb orb-one"></div>
+  <div class="bg-orb orb-two"></div>
+  <div class="bg-grid"></div>
+
+  <header class="site-header">
+    <nav class="navbar container">
+      <a class="brand" href="#hero">
+        <img src="/images/logo.png" alt="Promptwala Logo" class="brand-logo">
+        <span class="brand-text">Promptwala</span>
+      </a>
+
+    <button class="nav-toggle" type="button" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+    </button>
+
+      <div class="nav-menu">
+        <a href="/classes/">Classes</a>
+        <a href="/projects/">Projects</a>
+          <div id="userMenu" class="user-menu" style="display:none;">
+          <button id="userBtn" class="user-btn">Hi, User</button>
+
+          <div id="dropdown" class="dropdown" style="display:none;">
+            <button onclick="logout()" class="dropdown-item">Logout</button>
+          </div>
+        </div>
+          <div class="nav-actions" id="authButtons">
+            <a class="nav-action-link" href="/sign-in">Sign In</a>
+            <a class="nav-action-primary" href="/sign-up">Sign Up</a>
+          </div>
+      </div>
+    </nav>
+  </header>
+
+
+    <section id="inquiry" class="section">
+      <div class="container inquiry-layout">
+        <div class="section-heading reveal">
+          <p class="eyebrow">PROJECT INQUIRY</p>
+          <h2>Tell us what you need for this ready-to-use project.</h2>
+          <p>
+            Submit your details and the Promptwala team will follow up with the next
+            step for Plan 1 - Ready-to-Use Project.
+          </p>
+        </div>
+
+        <form class="glass-panel inquiry-form reveal" data-plan="Plan 1 - Ready-to-Use Project">
+          <input type="hidden" name="projectType" value="Plan 1 - Ready-to-Use Project">
+
+          <label>
+            Full Name
+            <input type="text" name="fullName" placeholder="Enter your full name" required>
+          </label>
+
+          <label>
+            Mobile Number
+            <input type="number" name="mobile" placeholder="Enter your mobile number" required>
+          </label>
+
+          <label>
+            Email Address
+            <span class="inline-control">
+              <input type="email" name="email" placeholder="Enter your email address" required>
+              <button class="button button-primary inline-button send-otp" type="button">Send OTP</button>
+            </span>
+          </label>
+
+          <label>
+            Enter OTP
+            <span class="inline-control">
+              <input type="text" name="otp" placeholder="Enter OTP" inputmode="numeric" required>
+              <button class="button button-primary inline-button verify-otp" type="button">Verify</button>
+            </span>
+          </label>
+
+          <label>
+            Project Details
+            <textarea name="projectDetails" rows="5" placeholder="Describe your project requirements, idea, or expectations" required></textarea>
+          </label>
+
+          
+          <p id="couponToggle" style="cursor:pointer; color:#4da8ff;">
+            Have a coupon?
+          </p>
+
+          <div id="couponBox" style="display:none; margin-bottom:10px;">
+            <input type="text" id="couponInput" placeholder="Enter coupon code">
+            <button class="button button-primary" type="button" onclick="verifyCoupon()">Verify</button>
+          </div>
+
+          <!-- <p class="form-status" aria-live="polite"></p> -->
+          <button class="button button-primary inquiry-submit" type="submit">Submit Inquiry</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+
+  <script>
+let couponApplied = false;
+let couponCode = "";
+let discountValue = 0;    
+const form = document.querySelector('.inquiry-form');
+const submitBtn = document.querySelector('.inquiry-submit'); // 🔥 ADD
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const projectType = form.projectType.value;
+  const fullName = form.fullName.value;
+  const mobile = form.mobile.value;
+  const email = form.email.value;
+  const projectDetails = form.projectDetails.value;
+
+  if (!fullName || !mobile || !email || !projectDetails) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  if (!isVerified) {
+    alert("Please verify OTP first");
+    return;
+  }
+
+  // 🔥 LOADER START (ADD ONLY THIS)
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span class="loader"></span> Submitting...';
+  submitBtn.style.opacity = "0.7";
+
+  try {
+    const res = await fetch('/plan-inquiry', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        projectType,
+        fullName,
+        mobile,
+        email,
+        projectDetails,
+        couponCode,
+        couponApplied,
+        discountValue        
+      })
+    });
+
+    const data = await res.json();
+
+    // ✅ SUCCESS UI (ADD ONLY THIS)
+    submitBtn.innerHTML = "✔ Submitted";
+    submitBtn.classList.add("btn-success");
+
+    alert(data.message);
+    form.reset();
+    window.location.href = "/";
+
+  } catch (err) {
+    alert("Server error");
+
+    // ❌ ERROR UI (ADD ONLY THIS)
+    submitBtn.innerHTML = "Try Again";
+    submitBtn.classList.add("btn-error");
+
+    // 🔄 RESET only on error
+    setTimeout(() => {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = "Submit Inquiry";
+      submitBtn.classList.remove("btn-error");
+    }, 2000);
+  }
+});
+
+document.getElementById("couponToggle").addEventListener("click", () => {
+  const box = document.getElementById("couponBox");
+  box.style.display = box.style.display === "none" ? "block" : "none";
+});
+
+async function verifyCoupon() {
+  const code = document.getElementById("couponInput").value;
+  const btn = event.target; // 🔥 verify button पकड़ रहे हैं
+
+  if (!code) {
+    alert("Enter coupon code");
+    return;
+  }
+
+  // 🔄 Loader UI
+  btn.disabled = true;
+  btn.innerText = "Verifying...";
+  btn.style.opacity = "0.7";
+
+  const res = await fetch('/verify-coupon', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ code })
+  });
+
+  const data = await res.json();
+
+  if (data.success) {
+    couponApplied = true;
+    couponCode = code;
+    discountValue = data.discount;
+
+    // ✅ Success UI
+    btn.innerText = "✔ Applied";
+    btn.style.background = ""; // green
+    btn.style.color = "#fff";
+    btn.style.cursor = "not-allowed";
+
+    alert("Coupon Applied (" + data.discount + "% OFF)");
+
+  } else {
+    couponApplied = false;
+
+    // ❌ Reset button
+    btn.disabled = false;
+    btn.innerText = "Verify";
+    btn.style.opacity = "1";
+
+    alert("Invalid Coupon Code");
+  }
+}
+
+document.getElementById("couponInput").addEventListener("input", () => {
+  const btn = document.querySelector("#couponBox button");
+
+  btn.disabled = false;
+  btn.innerText = "Verify";
+  btn.style.background = "";
+  btn.style.opacity = "1";
+
+  couponApplied = false;
+});
+
+</script>
+
+<script>
+const user = JSON.parse(localStorage.getItem("user"));
+
+const userMenu = document.getElementById("userMenu");
+const userBtn = document.getElementById("userBtn");
+const dropdown = document.getElementById("dropdown");
+const authButtons = document.getElementById("authButtons");
+
+if (user) {
+  userMenu.style.display = "inline-block";
+  userBtn.innerText = "Hi, " + user.name;
+  authButtons.style.display = "none";
+}
+
+// toggle dropdown
+userBtn.addEventListener("click", () => {
+  dropdown.style.display =
+    dropdown.style.display === "block" ? "none" : "block";
+});
+
+function logout() {
+  localStorage.removeItem("user");
+  window.location.href = "/logout"; // backend logout
+}
+
+// click outside close
+window.addEventListener("click", (e) => {
+  if (!userMenu.contains(e.target)) {
+    dropdown.style.display = "none";
+  }
+});
+</script>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="/Js/script.js"></script>
+  <script src="/Js/otp.js"></script>
+</body>
+</html>

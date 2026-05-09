@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promptwala Admin Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@500;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <style>
+    body {
+      font-family: "Space Grotesk", sans-serif;
+    }
+
+    .admin-shell {
+      position: relative;
+      z-index: 1;
+      width: var(--container);
+      margin: 0 auto;
+      padding: 2rem 0 3rem;
+    }
+
+    .admin-header {
+      margin-bottom: 1.75rem;
+    }
+
+    .admin-header h1 {
+      margin: 0.45rem 0 0.8rem;
+      font-family: "Syne", sans-serif;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      line-height: 0.96;
+    }
+
+    .admin-header p {
+      max-width: 42rem;
+      margin: 0;
+      color: var(--text-secondary);
+      line-height: 1.75;
+    }
+
+    .admin-layout {
+      display: grid;
+      grid-template-columns: minmax(15rem, 18rem) minmax(0, 1fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .admin-sidebar,
+    .admin-content-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border-glass);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow-depth);
+    }
+
+    .admin-sidebar {
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      display: grid;
+      gap: 0.85rem;
+      position: sticky;
+      top: 1.5rem;
+    }
+
+    .sidebar-title {
+      margin: 0 0 0.35rem;
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .sidebar-btn {
+      position: relative;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 0.95rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease, background 0.25s ease;
+    }
+
+    .sidebar-btn::before {
+      content: "";
+      width: 0.65rem;
+      height: 0.65rem;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+      transition: background 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .sidebar-btn:hover,
+    .sidebar-btn:focus-visible {
+      transform: translateY(-2px);
+      border-color: rgba(77, 168, 255, 0.25);
+      color: var(--text-primary);
+      box-shadow: var(--glow-secondary);
+      outline: none;
+    }
+
+    .sidebar-btn.is-active {
+      color: var(--text-primary);
+      border-color: rgba(168, 85, 247, 0.45);
+      background:
+        radial-gradient(circle at left center, rgba(77, 168, 255, 0.18), transparent 28%),
+        linear-gradient(90deg, rgba(77, 168, 255, 0.08), rgba(168, 85, 247, 0.08), rgba(255, 138, 0, 0.06));
+      box-shadow: var(--glow-primary);
+    }
+
+    .sidebar-btn.is-active::before {
+      background: var(--gradient-main);
+      box-shadow: var(--glow-primary);
+    }
+
+    .sidebar-btn span:last-child {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.72;
+    }
+
+    .admin-content-card {
+      border-radius: var(--radius-lg);
+      padding: 1.6rem;
+      min-height: 34rem;
+      animation: panelFade 0.45s ease;
+    }
+
+    .section-panel h3 {
+      margin: 0;
+      font-family: "Syne", sans-serif;
+      font-size: clamp(1.7rem, 4vw, 2.4rem);
+    }
+
+    .section-meta {
+      margin: 0.35rem 0 1.5rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .table-shell {
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 36rem;
+    }
+
+    .admin-table thead {
+      background:
+        linear-gradient(90deg, rgba(77, 168, 255, 0.12), rgba(168, 85, 247, 0.12), rgba(255, 138, 0, 0.08));
+    }
+
+    .admin-table th,
+    .admin-table td {
+      padding: 1rem 1.1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .admin-table th {
+      color: var(--text-primary);
+      font-size: 0.84rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .admin-table td {
+      color: var(--text-secondary);
+      line-height: 1.65;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    .admin-table tbody tr {
+      transition: transform 0.2s ease, background 0.25s ease;
+    }
+
+    .admin-table tbody tr:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .admin-table tbody tr:hover td {
+      color: var(--text-primary);
+    }
+
+    .admin-table tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(77, 168, 255, 0.12);
+      color: var(--text-primary);
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    @keyframes panelFade {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 960px) {
+      .admin-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-sidebar {
+        position: static;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .sidebar-title {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .admin-shell {
+        padding: 1.25rem 0 2rem;
+      }
+
+      .admin-sidebar {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-content-card {
+        padding: 1.1rem;
+      }
+
+      .admin-table {
+        min-width: 30rem;
+      }
+    }
+
+    .card h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+/* 🔥 Dashboard Section */
+#dashboardSection {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* 🔥 Card Container (one by one) */
+#dashboardSection > div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* 🔥 Individual Card */
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 18px 22px;
+  border-radius: 14px;
+
+  background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.15);
+
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 20px rgba(77,168,255,0.08);
+
+  transition: all 0.25s ease;
+}
+
+/* 🔥 Hover effect */
+.card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(77,168,255,0.35);
+  box-shadow: 0 0 25px rgba(77,168,255,0.2);
+}
+
+/* 🔥 Number */
+.card h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+/* 🔥 Label */
+.card p {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.6);
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+  </style>
+</head>
+<body class="site-body">
+  <div class="bg-orb orb-one"></div>
+  <div class="bg-orb orb-two"></div>
+  <div class="bg-grid"></div>
+
+  <main class="admin-shell">
+    <header class="admin-header">
+      <p class="eyebrow">PROMPTWALA ADMIN</p>
+      <h1>Control Panel With Clean Operational Clarity.</h1>
+      <p>
+        Monitor users, contact inquiries, and plan inquiries from one structured
+        workspace designed to feel premium, calm, and easy to navigate.
+      </p>
+    </header>
+
+    <div class="admin-layout">
+      <aside class="admin-sidebar">
+        <p class="sidebar-title">Navigation</p>
+        <button class="sidebar-btn is-active" data-section="dashboard" onclick="showSection('dashboard')">
+        <span>Dashboard</span>
+        <span>01</span>
+      </button>
+        <button class="sidebar-btn" data-section="users" onclick="showSection('users')">
+          <span>Users</span>
+          <span>02</span>
+        </button>
+        <button class="sidebar-btn" data-section="contact" onclick="showSection('contact')">
+          <span>Contact</span>
+          <span>03</span>
+        </button>
+        <button class="sidebar-btn" data-section="plan" onclick="showSection('plan')">
+          <span>Plan Inquiry</span>
+          <span>04</span>
+        </button>
+        <button class="sidebar-btn" data-section="email" onclick="showSection('email')">
+        <span>Send Email</span>
+        <span>05</span>
+        </button>
+      </aside>
+
+      <section class="admin-content-card">
+        
+        <div id="dashboardSection" style="display:none;">
+          <h2>Dashboard</h2>
+
+          <div style="display:flex; gap:20px; flex-wrap:wrap;">
+
+            <div class="card">
+              <h3 id="totalUsers">0</h3>
+              <p>Users</p>
+            </div>
+
+            <div class="card">
+              <h3 id="totalInquiries">0</h3>
+              <p>Inquiries</p>
+            </div>
+
+            <div class="card">
+              <h3 id="totalCoupons">0</h3>
+              <p>Coupons Used</p>
+            </div>
+
+            <div class="card">
+              <h3 id="totalVisitors">0</h3>
+              <p>Visitors</p>
+            </div>
+
+          </div>
+        </div>
+
+        
+        <div id="usersSection" class="section-panel">
+          <h3>Users</h3>
+          <p class="section-meta">Registered users listed in a clean table for quick review and monitoring.</p>
+          <div class="table-shell">
+            <div class="table-scroll">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="contactSection" class="section-panel" style="display:none;">
+          <h3>Contact Inquiries</h3>
+          <p class="section-meta">Incoming contact leads with quick visibility into basic response details.</p>
+          <div class="table-shell">
+            <div class="table-scroll">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                  </tr>
+                </thead>
+                <tbody id="contactTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="planSection" class="section-panel" style="display:none;">
+          <h3>Plan Inquiries</h3>
+          <p class="section-meta">Project and plan-focused inquiries presented in a more readable, premium format.</p>
+          <div class="table-shell">
+            <div class="table-scroll">
+              <table class="admin-table">
+                <thead>
+                    <th>ID</th>
+                    <th>Full Name</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Project Type</th>
+                    <th>Status</th>
+                    <th>project_details</th>
+                    <th>created_at</th>
+                    <th>admin_note</th>
+                    <th>updated_at</th>
+                    <th>coupon_code</th>
+                  </tr>
+                </thead>
+                <tbody id="planTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="emailSection" style="display:none;">
+        <h3>Send Email</h3>
+
+        <input type="number" id="clientId" placeholder="Enter Inquiry ID" 
+            style="display:block; margin-bottom:10px; padding:10px; width:300px;">
+
+        <textarea id="emailMessage" placeholder="Write your message..."
+            style="display:block; margin-bottom:10px; padding:10px; width:300px; height:120px;"></textarea>
+
+        <button class="button button-primary" onclick="sendEmailToClient()">
+            Send Email
+        </button>
+        </div>
+
+
+      </section>
+    </div>
+  </main>
+
+  <script>
+
+async function loadDashboard() {
+  const res = await fetch('/admin/stats');
+  const data = await res.json();
+
+  // 🔥 direct set करने के बजाय animate करो
+  animateCounter("totalUsers", data.users);
+  animateCounter("totalInquiries", data.inquiries);
+  animateCounter("totalCoupons", data.coupons);
+  animateCounter("totalVisitors", data.visitors);
+}
+
+
+// 🔹 USERS
+async function loadUsers() {
+  const res = await fetch('/admin/users', {
+    headers: { 'x-admin-key': '12345' }
+  });
+  const data = await res.json();
+
+  const table = document.getElementById('usersTable');
+  table.innerHTML = "";
+
+  data.forEach(u => {
+    table.innerHTML += `
+      <tr>
+        <td>${u.name}</td>
+        <td>${u.email}</td>
+      </tr>
+    `;
+  });
+}
+
+// 🔹 CONTACT
+async function loadContact() {
+  const res = await fetch('/admin/contact', {
+    headers: { 'x-admin-key': '12345' }
+  });
+  const data = await res.json();
+
+  const table = document.getElementById('contactTable');
+  table.innerHTML = "";
+
+  data.forEach(c => {
+    table.innerHTML += `
+      <tr>
+        <td>${c.name}</td>
+        <td>${c.email}</td>
+        <td>${c.mobile}</td>
+      </tr>
+    `;
+  });
+}
+
+// 🔹 PLAN
+async function loadPlan() {
+  const res = await fetch('/admin/inquiries', {
+    headers: { 'x-admin-key': '12345' }
+  });
+  const data = await res.json();
+
+  const table = document.getElementById('planTable');
+  table.innerHTML = "";
+
+  data.forEach(p => {
+    table.innerHTML += `
+      <tr>
+        <td>
+        <a href="/client-details?id=${p.id}" class="text-link">
+            ${p.id}
+        </a>
+        </td>
+        <td>${p.full_name}</td>
+        <td>${p.mobile}</td>
+        <td>${p.email}</td>
+        <td>${p.project_type}</td>
+        <td><span class="status-pill">${p.status}</span></td>
+        <td>${p.project_details}</td>
+        <td>${p.created_at}</td>
+        <td>${p.admin_note}</td>
+        <td>${p.updated_at}</td>
+        <td>${p.coupon_code}</td>
+      </tr>
+    `;
+  });
+}
+
+// 🔥 LOAD ALL
+loadUsers();
+loadContact();
+loadPlan();
+
+</script>
+
+<script>
+function showSection(section) {
+
+  // 🔥 sab hide karo
+  document.getElementById('dashboardSection').style.display = 'none';
+  document.getElementById('usersSection').style.display = 'none';
+  document.getElementById('contactSection').style.display = 'none';
+  document.getElementById('planSection').style.display = 'none';
+  document.getElementById('emailSection').style.display = 'none';
+
+  // 🔥 sirf selected show karo
+  if (section === "dashboard") {
+    document.getElementById("dashboardSection").style.display = "block";
+    loadDashboard();
+  }
+
+  if (section === 'users') {
+    document.getElementById('usersSection').style.display = 'block';
+  }
+
+  if (section === 'contact') {
+    document.getElementById('contactSection').style.display = 'block';
+  }
+
+  if (section === 'plan') {
+    document.getElementById('planSection').style.display = 'block';
+  }
+
+  if (section === 'email') {
+    document.getElementById('emailSection').style.display = 'block';
+  }
+}
+
+function animateCounter(elementId, target) {
+  let current = 0;
+  const increment = Math.ceil(target / 50); // speed control
+  const element = document.getElementById(elementId);
+
+  const interval = setInterval(() => {
+    current += increment;
+
+    if (current >= target) {
+      element.innerText = target;
+      clearInterval(interval);
+    } else {
+      element.innerText = current;
+    }
+  }, 20); // speed (lower = faster)
+}
+
+  // 🔥 DEFAULT LOAD
+showSection('dashboard');
+</script>
+
+<script>
+  const sidebarButtons = document.querySelectorAll('.sidebar-btn');
+
+  function updateActiveSidebar(section) {
+    sidebarButtons.forEach((button) => {
+      button.classList.toggle('is-active', button.dataset.section === section);
+    });
+  }
+
+  sidebarButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      updateActiveSidebar(button.dataset.section);
+    });
+  });
+
+</script>
+
+<script>
+    const sendMailBtn = document.querySelector('#emailSection .button-primary');
+    
+   async function sendEmailToClient() {
+  const id = document.getElementById("clientId").value;
+  const message = document.getElementById("emailMessage").value;
+
+  if (!id || !message) {
+    alert("Fill all fields");
+    return;
+  }
+
+  // 🔥 LOADER START
+  sendMailBtn.disabled = true;
+  sendMailBtn.innerHTML = '<span class="loader"></span> Sending...';
+  sendMailBtn.style.opacity = "0.7";
+
+  const res = await fetch('/admin/send-email', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-admin-key': '12345'
+    },
+    body: JSON.stringify({ id, message })
+  });
+
+  const data = await res.json();
+
+  // ✅ SUCCESS UI
+  sendMailBtn.innerHTML = "✔ Sent";
+  sendMailBtn.classList.add("btn-success");
+
+  alert(data.message);
+
+  // 🔄 RELOAD
+  setTimeout(() => {
+    location.reload();
+  }, 1000);
+}
+
+</script>
+</body>
+</html>

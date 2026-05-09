@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promptwala Projects</title>
+  <meta
+    name="description"
+    content="Explore Promptwala student projects, demos, and custom college project support."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@500;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="/css/style.css">
+
+ <style>
+
+    .user-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.user-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+  border: 1px solid rgba(255,255,255,0.18);
+  color: #fff;
+
+  padding: 8px 16px;
+  border-radius: 12px;
+
+  cursor: pointer;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+
+  backdrop-filter: blur(12px);
+  transition: all 0.25s ease;
+}
+
+.user-btn:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.35);
+  transform: translateY(-1px);
+}
+
+.dropdown {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background: rgba(0,0,0,0.8);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  min-width: 120px;
+  padding: 5px 0;
+}
+
+.dropdown-item {
+  width: 100%;
+  background: none;
+  border: none;
+  color: white;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* 🔥 Mobile fix */
+@media (max-width: 768px) {
+  .user-menu {
+    width: 100%;
+  }
+
+  .user-btn {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .dropdown {
+    position: relative;   /* ❗ important change */
+    top: 5px;
+    right: auto;
+    width: 100%;
+  }
+}
+  </style> 
+</head>
+<body class="site-body">
+  <div class="bg-orb orb-one"></div>
+  <div class="bg-orb orb-two"></div>
+  <div class="bg-grid"></div>
+
+  <header class="site-header">
+    <nav class="navbar container">
+      <a class="brand" href="#hero">
+        <img src="/images/logo.png" alt="Promptwala Logo" class="brand-logo">
+        <span class="brand-text">Promptwala</span>
+      </a>
+
+    <button class="nav-toggle" type="button" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+    </button>
+
+      <div class="nav-menu">
+        <a href="/classes/">Classes</a>
+          <div id="userMenu" class="user-menu" style="display:none;">
+          <button id="userBtn" class="user-btn">Hi, User</button>
+
+          <div id="dropdown" class="dropdown" style="display:none;">
+            <button onclick="logout()" class="dropdown-item">Logout</button>
+          </div>
+        </div>
+          <div class="nav-actions" id="authButtons">
+            <a class="nav-action-link" href="/sign-in">Sign In</a>
+            <a class="nav-action-primary" href="/sign-up">Sign Up</a>
+          </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="subpage-main">
+    <section class="section page-hero">
+      <div class="container">
+        <div class="glass-panel reveal">
+          <p class="eyebrow">PROMPTWALA PROJECTS</p>
+          <h1 class="hero-title">Student projects with <span class="gradient-text">real guidance</span>.</h1>
+          <p class="hero-description">
+            We focus on complete system development — from planning and logic to coding, testing, and launching — following real industry standards and practices.
+          </p>
+          <div class="split-actions">
+            <a class="button button-primary" href="/projects#plans">View Plans</a>
+            <a class="button button-secondary" href="/">Back to Agency Site</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+        <section class="section" id="plans">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">PROJECT PLANS</p>
+          <h2>Choose the project support style that matches your goal.</h2>
+          <p>
+            Pick a complete ready-made solution when you need fast delivery, or choose guided
+            development when you want to learn the logic and build with support.
+          </p>
+        </div>
+
+        <div class="offering-grid" id="Compare">
+          <article class="glass-card feature-card project-plan-card reveal">
+            <p class="card-tag">Plan 1</p>
+            <h3>Ready-to-Use Project</h3>
+            <p>A complete, pre-built project solution that you can directly use with full explanation.</p>
+            <ul class="list">
+              <li>Fully working project with source code</li>
+              <li>Explanation of system logic and functionality</li>
+              <li>Ready for immediate use</li>
+            </ul>
+            <div class="pricing-line">
+              <span>Fixed price</span>
+              <span style="text-decoration: line-through; color: gray;">₹17,999</span>
+            <strong> ₹11,999/-</strong>
+            </div>
+            <a class="button button-primary" href="/inquiry-plan1">Get This Plan</a>
+            <a class="button button-primary" href="/plan1">More Details</a>
+          </article>
+
+          <article class="glass-card feature-card project-plan-card reveal">
+            <p class="card-tag">Plan 2</p>
+            <h3>Guided Project Development</h3>
+            <p>A learning-based approach where you build your project step-by-step with guidance.</p>
+            <ul class="list">
+              <li>Step-by-step logic and workflow explanation</li>
+              <li>Live sessions, 3 days/week, 2 hours/session</li>
+              <li>Hands-on development support</li>
+            </ul>
+            <div class="pricing-line">
+              <span>Fixed price</span>
+              <span style="text-decoration: line-through; color: gray;">₹8,500</span>
+              <strong>₹6999 Per Person</strong>
+            </div>
+            <a class="button button-primary" href="/inquiry-plan2">Get This Plan</a>
+            <a class="button button-primary" href="/plan2">More Details</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">LISTINGS</p>
+          <h2>Ready-to-build concepts and guided solutions.</h2>
+        </div>
+        <div class="project-grid">
+          <article class="glass-card feature-card reveal">
+            <p class="card-tag">Demo Project</p>
+            <h3>Smart Attendance System</h3>
+            <p>Attendance tracker with student records, reports, and dashboard concepts.</p>
+          </article>
+          <article class="glass-card feature-card reveal">
+            <p class="card-tag">Web Project</p>
+            <h3>College Event Portal</h3>
+            <p>Event listings, registration flow, admin-side management, and modern frontend presentation.</p>
+          </article>
+          <article class="glass-card feature-card reveal">
+            <p class="card-tag">Custom Build</p>
+            <h3>Project on Request</h3>
+            <p>Need something custom for your college requirement? Promptwala can help plan and shape it.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="glass-panel reveal">
+          <p class="eyebrow">CUSTOM REQUEST</p>
+          <h2>Need a project demo or custom requirement?</h2>
+          <p class="hero-description">
+            We can support project descriptions, feature planning, and demo-oriented builds
+            that help students understand and present their work more confidently.
+          </p>
+          <div class="split-actions">
+            <a class="button button-primary" href="/classes/">Start with Classes</a>
+            <a class="button button-secondary" href="/">Contact the Team</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+const user = JSON.parse(localStorage.getItem("user"));
+
+const userMenu = document.getElementById("userMenu");
+const userBtn = document.getElementById("userBtn");
+const dropdown = document.getElementById("dropdown");
+const authButtons = document.getElementById("authButtons");
+
+if (user) {
+  userMenu.style.display = "inline-block";
+  userBtn.innerText = "Hi, " + user.name;
+  authButtons.style.display = "none";
+}
+
+// toggle dropdown
+userBtn.addEventListener("click", () => {
+  dropdown.style.display =
+    dropdown.style.display === "block" ? "none" : "block";
+});
+
+function logout() {
+  localStorage.removeItem("user");
+  window.location.href = "/logout"; // backend logout
+}
+
+// click outside close
+window.addEventListener("click", (e) => {
+  if (!userMenu.contains(e.target)) {
+    dropdown.style.display = "none";
+  }
+});
+</script>
+
+
+  <script>fetch('/track-visit', { method: 'POST' });</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="/Js/script.js"></script>
+</body>
+</html>

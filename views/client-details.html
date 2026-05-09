@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Details</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@500;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    :root {
+      --details-danger: linear-gradient(90deg, #ff4d6d, #ff8a00);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(77, 168, 255, 0.14), transparent 30%),
+        radial-gradient(circle at top right, rgba(168, 85, 247, 0.14), transparent 28%),
+        radial-gradient(circle at bottom center, rgba(255, 138, 0, 0.12), transparent 30%),
+        linear-gradient(180deg, var(--bg-primary, #050505), var(--bg-secondary, #0a0f1c));
+      color: var(--text-primary, #ffffff);
+      font-family: "Space Grotesk", sans-serif;
+      overflow-x: hidden;
+    }
+
+    .details-bg-orb,
+    .details-bg-grid {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+    }
+
+    .details-bg-orb {
+      filter: blur(90px);
+      opacity: 0.65;
+    }
+
+    .details-orb-one {
+      background: radial-gradient(circle, rgba(77, 168, 255, 0.2), transparent 55%);
+      transform: translate(-20%, -25%);
+    }
+
+    .details-orb-two {
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.2), transparent 55%);
+      transform: translate(35%, 18%);
+    }
+
+    .details-bg-grid {
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+      opacity: 0.15;
+    }
+
+    .details-shell {
+      position: relative;
+      z-index: 1;
+      width: min(960px, calc(100vw - 2rem));
+      margin: 0 auto;
+      padding: 2rem 0 3rem;
+    }
+
+    .details-intro {
+      margin-bottom: 1.5rem;
+    }
+
+    .details-intro p:first-child {
+      margin: 0;
+      color: var(--color-blue, #4da8ff);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+    }
+
+    .details-intro h1 {
+      margin: 0.5rem 0 0.75rem;
+      font-family: "Syne", sans-serif;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      line-height: 0.98;
+    }
+
+    .details-intro p:last-child {
+      max-width: 42rem;
+      margin: 0;
+      color: var(--text-secondary, #b0b0b0);
+      line-height: 1.75;
+    }
+
+    .details-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 28px;
+      padding: 1.6rem;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+      backdrop-filter: blur(18px);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+      animation: detailsFade 0.5s ease;
+    }
+
+    .details-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 1.4rem;
+    }
+
+    .details-top h2 {
+      margin: 0;
+      font-family: "Syne", sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+    }
+
+    .details-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.7rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-secondary, #b0b0b0);
+      font-size: 0.86rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    #details {
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #details p {
+      margin: 0;
+      padding: 1rem 1.1rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-secondary, #b0b0b0);
+      line-height: 1.75;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+
+    #details p:hover {
+      transform: translateY(-2px);
+      border-color: rgba(77, 168, 255, 0.2);
+      box-shadow: 0 0 35px rgba(77, 168, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    #details b {
+      display: inline-block;
+      min-width: 6.3rem;
+      margin-right: 0.25rem;
+      color: var(--text-primary, #ffffff);
+      font-weight: 700;
+    }
+
+    .details-controls {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .status-block {
+      display: grid;
+      gap: 0.65rem;
+    }
+
+    .status-block label {
+      color: var(--text-primary, #ffffff);
+      font-weight: 600;
+    }
+
+    .details-select-wrap {
+      position: relative;
+      width: min(100%, 18rem);
+    }
+
+    #status {
+      width: 100%;
+      min-height: 3.35rem;
+      padding: 0.95rem 3rem 0.95rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.03)),
+        rgba(255, 255, 255, 0.04);
+      color: var(--text-primary, #ffffff);
+      box-shadow: 0 0 35px rgba(77, 168, 255, 0.06);
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      outline: none;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+      cursor: pointer;
+    }
+
+    #status:focus {
+      border-color: rgba(77, 168, 255, 0.65);
+      box-shadow: 0 0 35px rgba(77, 168, 255, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .details-select-wrap::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: 1rem;
+      width: 0.9rem;
+      height: 0.9rem;
+      transform: translateY(-50%);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18' fill='none'%3E%3Cpath d='M4.5 6.75L9 11.25L13.5 6.75' stroke='%23B0B0B0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      pointer-events: none;
+    }
+
+    #status option {
+      background: var(--bg-secondary, #0a0f1c);
+      color: var(--text-primary, #ffffff);
+    }
+
+    .details-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+    }
+
+    .details-actions .button {
+      min-height: 3.4rem;
+      padding: 0.95rem 1.35rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
+      cursor: pointer;
+    }
+
+    .details-actions .button:hover,
+    .details-actions .button:focus-visible {
+      transform: translateY(-2px) scale(1.02);
+      outline: none;
+    }
+
+    .button-primary {
+      color: var(--text-primary, #ffffff);
+      background: var(--gradient-main, linear-gradient(90deg, #4da8ff, #a855f7, #ff8a00));
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
+    }
+
+    .button-secondary {
+      color: var(--text-primary, #ffffff);
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 0 35px rgba(77, 168, 255, 0.12);
+    }
+
+    .button-danger {
+      color: var(--text-primary, #ffffff);
+      background: var(--details-danger);
+      box-shadow: 0 0 24px rgba(255, 77, 109, 0.35);
+    }
+
+    @keyframes detailsFade {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .details-shell {
+        padding: 1.25rem 0 2rem;
+      }
+
+      .details-card {
+        padding: 1.1rem;
+        border-radius: 22px;
+      }
+
+      .details-top {
+        grid-template-columns: 1fr;
+      }
+
+      #details b {
+        min-width: auto;
+        margin-bottom: 0.25rem;
+      }
+
+      .details-select-wrap {
+        width: 100%;
+      }
+
+      .details-actions {
+        flex-direction: column;
+      }
+
+      .details-actions .button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body class="site-body">
+  <div class="details-bg-orb details-orb-one"></div>
+  <div class="details-bg-orb details-orb-two"></div>
+  <div class="details-bg-grid"></div>
+
+  <main class="details-shell">
+    <header class="details-intro">
+      <p>CLIENT DETAIL VIEW</p>
+      <h1>Inquiry Details With Clear Operational Focus.</h1>
+      <p>
+        Review the selected inquiry in a cleaner, more structured layout designed to
+        support quick decisions, status updates, and confident follow-up actions.
+      </p>
+    </header>
+
+    <div class="glass-card details-card">
+      <div class="details-top">
+        <h2>Client Details</h2>
+        <span class="details-chip">Promptwala Admin</span>
+      </div>
+
+      <div id="details"></div>
+
+      <div class="details-controls">
+        <div class="status-block">
+            <label>Admin Note</label>
+            <textarea id="adminNote" rows="4" 
+                style="width:100%; padding:10px; border-radius:10px;"
+                placeholder="Write note..."></textarea>
+            </div>
+
+            <button class="button button-primary" onclick="saveNote()">
+            Save Note
+            </button>
+        <div class="status-block">
+          <label for="status">Status</label>
+          <div class="details-select-wrap">
+            <select id="status" class="button button-secondary">
+              <option value="pending">Pending</option>
+              <option value="in_progress">In Progress</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="details-actions">
+          <button class="button button-primary" onclick="updateStatus()">Update Status</button>
+          <button class="button button-secondary" onclick="goBack()">Back</button>
+          <button class="button button-danger" onclick="deleteInquiry()">Delete</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+<script>
+
+// 🔥 GET ID FROM URL
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+// 🔥 LOAD DATA
+async function loadDetails() {
+  const res = await fetch(`/admin/inquiry/${id}`, {
+    headers: { 'x-admin-key': '12345' }
+  });
+
+  const data = await res.json();
+
+  document.getElementById("details").innerHTML = `
+    <p><b>Name:</b> ${data.full_name}</p>
+    <p><b>Email:</b> ${data.email}</p>
+    <p><b>Mobile:</b> ${data.mobile}</p>
+    <p><b>Project:</b> ${data.project_type}</p>
+    <p><b>Details:</b> ${data.project_details}</p>
+    <p><b>Details:</b> ${data.coupon_code}</p>
+    <p><b>Created:</b> ${data.created_at}</p>
+  `;
+
+  document.getElementById("status").value = data.status;
+  document.getElementById("adminNote").value = data.admin_note || "";
+}
+
+// 🔥 SAVE NOTE
+async function saveNote() {
+  const note = document.getElementById("adminNote").value;
+
+  await fetch('/admin/update-note', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-admin-key': '12345'
+    },
+    body: JSON.stringify({ id, note })
+  });
+
+  alert("Note saved");
+}
+
+// 🔥 UPDATE STATUS
+async function updateStatus() {
+  const status = document.getElementById("status").value;
+
+  await fetch('/admin/update-status', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-admin-key': '12345'
+    },
+    body: JSON.stringify({ id, status })
+  });
+
+  alert("Status updated");
+}
+
+// 🔥 DELETE
+async function deleteInquiry() {
+  if (!confirm("Are you sure?")) return;
+
+  await fetch('/admin/delete', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-admin-key': '12345'
+    },
+    body: JSON.stringify({ id })
+  });
+
+  alert("Deleted");
+  window.location.href = "/admin";
+}
+
+// 🔙 BACK
+function goBack() {
+  window.location.href = "/admin";
+}
+
+loadDetails();
+
+</script>
+
+</body>
+</html>
