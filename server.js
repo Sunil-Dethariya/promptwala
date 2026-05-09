@@ -236,13 +236,7 @@ const db = mysql.createPool({
   queueLimit: 0
 });
 
-db.connect((err) => {
-  if (err) {
-    console.log('❌ DB Error:', err);
-  } else {
-    console.log('✅ MySQL Connected');
-  }
-});
+
 
 // Static files (CSS, JS)
 app.use(express.static(path.join(__dirname, 'public')));
